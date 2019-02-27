@@ -8,25 +8,45 @@ const url = 'http://localhost:5000/friends';
 
 function App () {
   const [friends, setFriends] = useState(null);
+  const [update, setUpdate] = useState(null);
   const [error, setError] = useState(false);
 
   const getFriends = async () => {
     try {
       const res = await axios.get(url);
-      console.log(res)
       setFriends(res.data);
     } catch(e) {
       setError(true);
     }
   }
 
-  const submitHandler = async (e, fields) => {
+  const deleteFriend = async (e, id) => {
+    try {
+      const res = await  axios.delete(`${url}/${id}`);
+      setFriends(res.data);
+    } catch(e) {
+      setError('Couldn\'t delete friend');
+    }
+  }
+
+  const updateHandler = async (e, fields) => {
     e.preventDefault();
     try {
-        const res = await axios.post(url, fields);
-        setFriends(res.data);
+      const res = await axios.put(`${url}/${update}`, fields);
+      setFriends(res.data);
+      setUpdate(null);
     } catch(e) {
-        console.log(e)
+      setError('Couldn\'t update friend');
+    }
+  }
+
+  const addHandler = async (e, fields) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(url, fields);
+      setFriends(res.data);
+    } catch(e) {
+      setError('Couldn\'t add friend');
     }
   } 
 
@@ -34,10 +54,21 @@ function App () {
     getFriends()
   }, []);
 
+  console.log(update)
   return (
     <div className="App">
-      <AddFriend submitHandler={submitHandler} />
-      <FriendList friends={friends} />
+      <AddFriend 
+        update={update} 
+        addHandler={addHandler} 
+        updateHandler={updateHandler} 
+      />
+      <div style={{ height: 20, color: 'orange' }}>{!!error && error}</div>
+      <FriendList 
+        friends={friends} 
+        update={update}
+        setUpdate={setUpdate} 
+        deleteFriend={deleteFriend} 
+      />
     </div>
   );
 }

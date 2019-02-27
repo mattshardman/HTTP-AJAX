@@ -1,37 +1,41 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 const styles = {
     form: {
+        zIndex: 1000,
         boxSizing: 'border-box',
         padding: '30px 0',
         width: '100%',
-        height: 100,
+        minHeight: 100,
         display: 'flex',
+        flexWrap: 'wrap',
         justifyContent: 'space-evenly'
     },
     input: {
-        width: 200,
+        boxSizing: 'border-box',
+        width: 300,
         height: 40,
         borderRadius: 5,
         padding: '0 15px',
         border: '1px solid orange',
         fontSize: 16,
+        margin: 10
     },
     button: {
-        width: 200, 
+        boxSizing: 'border-box',
+        width: 300, 
         height: 40,
         borderRadius: 5,
         border: '1px solid orange',
         background: 'orange',
         color: '#fff',
-        fontSize: 16
+        fontSize: 16,
+        margin: 10
     }
 }
 
-const url = 'http://localhost:5000/friends';
-
-function AddFriend({submitHandler}) {
+function AddFriend({update, updateHandler, addHandler}) {
+    console.log(update)
     const [fields, setFields] = useState({
         name: '',
         age: '',
@@ -47,17 +51,39 @@ function AddFriend({submitHandler}) {
         <form 
             style={styles.form} 
             onSubmit={(e) => {
-                submitHandler(e, fields);
+                if(update) {
+                    updateHandler(e, fields);
+                } else {
+                    addHandler(e, fields);
+                }
                 setFields({
                     name: '',
                     age: '',
                     email: '',
                 });
             }}>
-            <input type="text" placeholder="Name please" style={styles.input} value={fields.name} onChange={e => changeHandler(e, 'name')}/>
-            <input type="text" placeholder="Age please" style={styles.input} value={fields.age} onChange={e => changeHandler(e, 'age')}/>
-            <input type="text" placeholder="Email please" style={styles.input} value={fields.email} onChange={e => changeHandler(e, 'email')}/>
-            <button style={styles.button}>ADD</button>
+            <input 
+                type="text" 
+                placeholder="Name please" 
+                style={styles.input} 
+                value={fields.name} 
+                onChange={e => changeHandler(e, 'name')}
+            />
+            <input 
+                type="text" 
+                placeholder="Age please" 
+                style={styles.input} 
+                value={fields.age} 
+                onChange={e => changeHandler(e, 'age')}
+            />
+            <input 
+                type="text" 
+                placeholder="Email please" 
+                style={styles.input} 
+                value={fields.email} 
+                onChange={e => changeHandler(e, 'email')}
+            />
+            <button style={styles.button}>{update ? 'UPDATE' : 'ADD'}</button>
         </form>
     )
 }
