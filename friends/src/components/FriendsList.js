@@ -1,27 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import Card from './FriendCard';
 
-const url = 'http://localhost:5000/friends';
-
-function FriendList() {
-    const [friends, setFriends] = useState(null);
-    const [error, setError] = useState(false);
-
-    const getFriends = async () => {
-        try {
-            const res = await axios.get(url);
-            console.log(res)
-            setFriends(res.data);
-        } catch(e) {
-            setError(true);
-        }
-    }
-
-    useEffect(() => {
-        getFriends()
-    }, [])
-
+function FriendList({friends}) {
     if (friends) {
         return(
             <div style={{ 
@@ -36,7 +16,7 @@ function FriendList() {
                     display: 'flex', 
                     flexWrap: 'wrap',
                 }}>
-                    {friends.map(friend => <Card {...friend} />)}
+                    {friends.reverse().map(friend => <Card {...friend} />)}
                 </div>
             </div>
         );
