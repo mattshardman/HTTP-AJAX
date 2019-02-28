@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const styles = {
     form: {
@@ -48,7 +48,7 @@ const styles = {
     }
 }
 
-function FriendForm({update, updateHandler, addHandler}) {
+function FriendForm({update, currentFriend, updateHandler, addHandler}) {
     const [fields, setFields] = useState({
         name: '',
         age: '',
@@ -61,8 +61,14 @@ function FriendForm({update, updateHandler, addHandler}) {
         email: null,
     });
 
+    useEffect(() => {
+        setError({ name: null,
+            age: null,
+            email: null 
+        });
+    }, [update]);
+
     const validator = (value, input) => {
-        console.log(value, input)
         if(input === 'name') {
             if (value.length < 3) {
                 return setError(st => ({...st,  name: 'Name must be at least 3 characters'}));
@@ -130,7 +136,7 @@ function FriendForm({update, updateHandler, addHandler}) {
                 <div style={{ position: 'relative' }}>
                     <input 
                         type="text" 
-                        placeholder={each.placeholder}
+                        placeholder={currentFriend ? currentFriend[each.tag] : each.placeholder}
                         style={{...styles.input, border: error[each.tag] ? '1px #ff6e42 solid': '1px orange solid'}} 
                         value={fields[each.tag]} 
                         onFocus={() => setError(st => ({ ...st, [each.tag]: null}))}

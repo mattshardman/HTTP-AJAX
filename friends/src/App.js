@@ -54,11 +54,11 @@ function App () {
     getFriends();
   }, []);
 
-  console.log(update)
   return (
     <div className="App">
       <AddFriend 
         update={update} 
+        currentFriend={!!update && friends[update -1]}
         addHandler={addHandler} 
         updateHandler={updateHandler} 
       />
