@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import FriendList from './components/FriendsList';
-import AddFriend from './components/AddNewFriend';
+import AddFriend from './components/FriendForm';
 import axios from 'axios';
 
 const url = 'http://localhost:5000/friends';
@@ -22,7 +22,7 @@ function App () {
 
   const deleteFriend = async (e, id) => {
     try {
-      const res = await  axios.delete(`${url}/${id}`);
+      const res = await axios.delete(`${url}/${id}`);
       setFriends(res.data);
     } catch(e) {
       setError('Couldn\'t delete friend');
@@ -51,7 +51,7 @@ function App () {
   } 
 
   useEffect(() => {
-    getFriends()
+    getFriends();
   }, []);
 
   console.log(update)

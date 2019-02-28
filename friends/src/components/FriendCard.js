@@ -68,9 +68,9 @@ function Card({id, name, age, email, update, setUpdate, deleteFriend}) {
                 style={{...styles.button, ...styles.updateBtn}} 
                 onClick={(e) => {
                     if(update) {
-                        return setUpdate(null)
+                        return setUpdate(null);
                     }
-                    return setUpdate(id)
+                    return setUpdate(id);
                 }}
             >
                 <i className="material-icons" style={{ fontSize: 12 }}>

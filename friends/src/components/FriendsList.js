@@ -37,7 +37,7 @@ function FriendList({friends, update, setUpdate, deleteFriend}) {
 
     return(
         <div style={{ height: '100vh', width: '100%' }}>
-            no friends received n that
+            no friends received
         </div>
     );   
 }
